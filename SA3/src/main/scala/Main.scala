@@ -1,7 +1,42 @@
 import akka.actor.{Actor, ActorLogging, ActorRef, ActorSystem, Props}
+
+import java.text.SimpleDateFormat
 import java.util.Date
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class SystemService (DATE: Date, PT: PropertyType, NAME: String, CITY: String, COUNTRY: String, CATEGORY: Int, searchActor: ActorRef) extends Actor with ActorLogging {
+sealed trait PropertyAvailability
+case object PropertyIsAvailable extends PropertyAvailability
+case object PropertyIsNotAvailable extends PropertyAvailability
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+sealed trait PropertyType
+case object Hotel extends PropertyType
+case object Apartment extends PropertyType
+case object Resort extends PropertyType
+case object NON extends PropertyType
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+case class client(name: String, age: Int, passport_number: String)
+case class property(id: Int, name: String, PropertyType: PropertyType, category: Int, country: String, city: String,
+                    var NotAvailable: List[Date], Price: Double)
+case class AvailableProperty(id: Int, name: String, PropertyType: PropertyType, category: Int, country: String,
+                             city: String, price: Double)
+case class AvailableProperties(var availableProperties: List[AvailableProperty])
+case class SendProperty(date: Date, propertyType: PropertyType, actorRef: ActorRef)
+case class SendPropertyName(date: Date, name: String, actorRef: ActorRef)
+case class SendPropertyCategory(date: Date, category: Int, actorRef: ActorRef)
+case class SendPropertyCountryCity(date: Date, country: String, city: String, actorRef: ActorRef)
+case class SendPropertyCountryCityName(date: Date, country: String, city: String, name: String, actorRef: ActorRef)
+case class SendPropertyCountryCityCategory(date: Date, country: String, city: String, category: Int, actorRef: ActorRef)
+case class SendPropertyNameCategory(date: Date, category: Int, name: String, actorRef: ActorRef)
+case class SendPropertyTypeName(date: Date, propertyType: PropertyType, name: String, actorRef: ActorRef)
+case class SendPropertyTypeCountryCity(date: Date, propertyType: PropertyType, country: String, city: String,
+                                       actorRef: ActorRef)
+case class SendPropertyTypeCountryCityName(date: Date, propertyType: PropertyType, country: String, city: String,
+                                           name: String, actorRef: ActorRef)
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class Client (DATE: Date, PT: PropertyType, NAME: String, CITY: String, COUNTRY: String, CATEGORY: Int, 
+              searchActor: ActorRef) extends Actor with ActorLogging {
+  var CLIENTS = List(
+    client("Ardavan Khalij", 23, "Y44986738")
+  )
   if (DATE != null) {
     if (PT != NON) {
       if (NAME == "null") {
@@ -168,7 +203,7 @@ class SystemService (DATE: Date, PT: PropertyType, NAME: String, CITY: String, C
   }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class Search extends Actor{
+class SystemService extends Actor{
   var PROPERTIES = List(
     property(1, "Avenue Louise", Hotel, 4, "Belgium", "Brussels", List(), 70),
     property(2, "Azadi", Hotel, 5, "Iran", "Tehran", List(), 99),
@@ -351,4 +386,30 @@ class Search extends Actor{
 //    case String =>
 //  }
 //}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+object BOOKING extends App {
+  val system = ActorSystem("Booking")
+  val searchActor = system.actorOf(Props[SystemService], "search")
+  val format = new SimpleDateFormat("yyyy-MM-dd")
+  val date = format.parse("2022-09-11")
+  val searchHotel = system.actorOf(Props(new Client(date, Hotel, "null", "null", "null",
+    0, searchActor)), "searchForHotel")
+  Thread.sleep(3000)
+  val searchApartment = system.actorOf(Props(new Client(date, Apartment, "null", "null",
+    "null", 0, searchActor)), "searchForApartment")
+  Thread.sleep(3000)
+  val searchResort = system.actorOf(Props(new Client(date, Resort, "null", "null",
+    "null", 0, searchActor)), "searchForResort")
+  Thread.sleep(3000)
+  val searchName = system.actorOf(Props(new Client(date, NON, "Eram", "null", "null",
+    0, searchActor)), "searchForName")
+  Thread.sleep(3000)
+  val search4 = system.actorOf(Props(new Client(date, NON, "null", "Tehran", "Iran",
+    5, searchActor)), "search4")
+  Thread.sleep(3000)
+  val search5 = system.actorOf(Props(new Client(date, NON, "null", "null", "null",
+    5, searchActor)), "search5")
+  Thread.sleep(3000)
+  system.terminate()
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
