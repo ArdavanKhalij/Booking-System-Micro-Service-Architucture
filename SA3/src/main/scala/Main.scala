@@ -97,10 +97,8 @@ class Client (PASSPORT: String, DATE: Date, PT: PropertyType, NAME: String, CITY
           if (COUNTRY == "null") {
             if (CATEGORY == 0) {
               println(s"Start Searching for ${PT.toString}s with availability on ${DATE.toString}...")
-              Thread.sleep(100)
               println("##############################################################################################" +
                 "#########")
-              Thread.sleep(1000)
               searchActor ! SendProperty(CUSTOMER_NAME, DATE, PT, self)
             }
           }
@@ -113,10 +111,8 @@ class Client (PASSPORT: String, DATE: Date, PT: PropertyType, NAME: String, CITY
           if (COUNTRY == "null") {
             if (CATEGORY == 0) {
               println(s"Start Searching for properties with name $NAME , and availability on ${DATE.toString}...")
-              Thread.sleep(100)
               println("##############################################################################################" +
                 "#########")
-              Thread.sleep(1000)
               searchActor ! SendPropertyName(CUSTOMER_NAME, DATE, NAME, self)
             }
           }
@@ -129,10 +125,8 @@ class Client (PASSPORT: String, DATE: Date, PT: PropertyType, NAME: String, CITY
           if (COUNTRY == "null") {
             if (CATEGORY != 0) {
               println(s"Start Searching for ${CATEGORY} star properties with availability on ${DATE.toString}...")
-              Thread.sleep(100)
               println("##############################################################################################" +
                 "#########")
-              Thread.sleep(1000)
               searchActor ! SendPropertyCategory(CUSTOMER_NAME, DATE, CATEGORY, self)
             }
           }
@@ -145,10 +139,8 @@ class Client (PASSPORT: String, DATE: Date, PT: PropertyType, NAME: String, CITY
           if (COUNTRY != "null") {
             if (CATEGORY == 0) {
               println(s"Start Searching for properties in ${CITY}, $COUNTRY, with availability on ${DATE.toString}...")
-              Thread.sleep(100)
               println("##############################################################################################" +
                 "#########")
-              Thread.sleep(1000)
               searchActor ! SendPropertyCountryCity(CUSTOMER_NAME, DATE, COUNTRY, CITY, self)
             }
           }
@@ -162,10 +154,8 @@ class Client (PASSPORT: String, DATE: Date, PT: PropertyType, NAME: String, CITY
             if (CATEGORY == 0) {
               println(s"Start Searching for properties in ${CITY}, $COUNTRY, with name $NAME and with availability " +
                 s"on ${DATE.toString}...")
-              Thread.sleep(100)
               println("##############################################################################################" +
                 "#########")
-              Thread.sleep(1000)
               searchActor ! SendPropertyCountryCityName(CUSTOMER_NAME, DATE, COUNTRY, CITY, NAME, self)
             }
           }
@@ -179,10 +169,8 @@ class Client (PASSPORT: String, DATE: Date, PT: PropertyType, NAME: String, CITY
             if (CATEGORY != 0) {
               println(s"Start Searching for properties in ${CITY}, $COUNTRY, and with availability on " +
                 s"${DATE.toString}...")
-              Thread.sleep(100)
               println("##############################################################################################" +
                 "#########")
-              Thread.sleep(1000)
               searchActor ! SendPropertyCountryCityCategory(CUSTOMER_NAME, DATE, COUNTRY, CITY, CATEGORY, self)
             }
           }
@@ -195,10 +183,8 @@ class Client (PASSPORT: String, DATE: Date, PT: PropertyType, NAME: String, CITY
           if (COUNTRY == "null") {
             if (CATEGORY != 0) {
               println(s"Start Searching for $PT with name, $NAME, and with availability on ${DATE.toString}...")
-              Thread.sleep(100)
               println("##############################################################################################" +
                 "#########")
-              Thread.sleep(1000)
               searchActor ! SendPropertyNameCategory(CUSTOMER_NAME, DATE, CATEGORY, NAME, self)
             }
           }
@@ -211,10 +197,8 @@ class Client (PASSPORT: String, DATE: Date, PT: PropertyType, NAME: String, CITY
           if (COUNTRY == "null") {
             if (CATEGORY == 0) {
               println(s"Start Searching for $CATEGORY star $PT and with availability on ${DATE.toString}...")
-              Thread.sleep(100)
               println("##############################################################################################" +
                 "#########")
-              Thread.sleep(1000)
               searchActor ! SendPropertyTypeName(CUSTOMER_NAME, DATE, PT, NAME, self)
             }
           }
@@ -227,10 +211,8 @@ class Client (PASSPORT: String, DATE: Date, PT: PropertyType, NAME: String, CITY
           if (COUNTRY != "null") {
             if (CATEGORY == 0) {
               println(s"Start Searching for $PT in $CITY, $COUNTRY, and with availability on ${DATE.toString}...")
-              Thread.sleep(100)
               println("##############################################################################################" +
                 "#########")
-              Thread.sleep(1000)
               searchActor ! SendPropertyTypeCountryCity(CUSTOMER_NAME, DATE, PT, COUNTRY, CITY, self)
             }
           }
@@ -244,10 +226,8 @@ class Client (PASSPORT: String, DATE: Date, PT: PropertyType, NAME: String, CITY
             if (CATEGORY == 0) {
               println(s"Start Searching for $PT in $CITY, $COUNTRY, with name $NAME and with availability on " +
                 s"${DATE.toString}...")
-              Thread.sleep(100)
               println("##############################################################################################" +
                 "#########")
-              Thread.sleep(1000)
               searchActor ! SendPropertyTypeCountryCityName(CUSTOMER_NAME, DATE, PT, COUNTRY, CITY, NAME, self)
             }
           }
@@ -259,7 +239,6 @@ class Client (PASSPORT: String, DATE: Date, PT: PropertyType, NAME: String, CITY
     case AvailableProperties(availableProperties) => {
       var i = 1
       availableProperties.foreach { X =>
-        Thread.sleep(200)
         println(s"$i- ${X.name} ${X.category.toString} star ${X.PropertyType.toString} with id number ${X.id} in " +
           s"${X.city}, ${X.country} is available on ${DATE} for ${X.price.toString} euros.")
         i = i + 1
@@ -485,22 +464,22 @@ class ReservationService (DATE: Date, replyTo: ActorRef) extends Actor with Acto
   val date = format.parse("2022-09-11")
   val searchHotel = system.actorOf(Props(new Client("Y44986738", date, Hotel, "null", "null",
     "null", 0, searchActor)), "searchForHotel")
-  Thread.sleep(3000)
+  Thread.sleep(1000)
   val searchApartment = system.actorOf(Props(new Client("Y44986739", date, Apartment, "null",
     "null", "null", 0, searchActor)), "searchForApartment")
-  Thread.sleep(3000)
+  Thread.sleep(1000)
   val searchResort = system.actorOf(Props(new Client("Y44986740", date, Resort, "null",
     "null", "null", 0, searchActor)), "searchForResort")
-  Thread.sleep(3000)
+  Thread.sleep(1000)
   val searchName = system.actorOf(Props(new Client("Y44986741", date, NON, "Eram", "null",
     "null", 0, searchActor)), "searchForName")
-  Thread.sleep(3000)
+  Thread.sleep(1000)
   val search4 = system.actorOf(Props(new Client("Y44986742", date, NON, "null", "Tehran",
     "Iran", 5, searchActor)), "search4")
-  Thread.sleep(3000)
+  Thread.sleep(1000)
   val search5 = system.actorOf(Props(new Client("Y44986743", date, NON, "null", "null",
     "null", 5, searchActor)), "search5")
-  Thread.sleep(3000)
+  Thread.sleep(1000)
   system.terminate()
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
