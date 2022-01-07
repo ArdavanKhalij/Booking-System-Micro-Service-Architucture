@@ -444,10 +444,15 @@ class SystemService extends Actor{
     }
 //    case AvailableProperty(customerName, id, name, propertyType, category, country, city, price, date, actorRef) =>
     case _ =>
+      val childSearch = context.actorOf(Props(new ReservationService()))
       println("Search is not available!")
       println("#######################################################################################################")
       println("")
   }
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class ReservationService() extends Actor with ActorLogging {
+  override def receive: Receive = ???
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   val system = ActorSystem("Booking")
