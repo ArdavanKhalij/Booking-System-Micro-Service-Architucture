@@ -276,10 +276,14 @@ class Client (PASSPORT: String, DATE: Date, PT: PropertyType, NAME: String, CITY
     case ReservationIsFailed => {
       println(s"Reservation has been failed by $CUSTOMER_NAME.")
       println("#######################################################################################################")
+      println("")
+      println("")
     }
     case ReservationIsSuccessfull => {
       println(s"Reservation has been complete by $CUSTOMER_NAME.")
       println("#######################################################################################################")
+      println("")
+      println("")
     }
     case _ =>
   }
@@ -482,21 +486,21 @@ class ReservationService (DATE: Date, replyTo: ActorRef) extends Actor with Acto
   val searchHotel = system.actorOf(Props(new Client("Y44986738", date, Hotel, "null", "null",
     "null", 0, searchActor)), "searchForHotel")
   Thread.sleep(3000)
-//  val searchApartment = system.actorOf(Props(new Client("Y44986738", date, Apartment, "null",
-//    "null", "null", 0, searchActor)), "searchForApartment")
-//  Thread.sleep(3000)
-//  val searchResort = system.actorOf(Props(new Client("Y44986738", date, Resort, "null",
-//    "null", "null", 0, searchActor)), "searchForResort")
-//  Thread.sleep(3000)
-//  val searchName = system.actorOf(Props(new Client("Y44986738", date, NON, "Eram", "null",
-//    "null", 0, searchActor)), "searchForName")
-//  Thread.sleep(3000)
-//  val search4 = system.actorOf(Props(new Client("Y44986738", date, NON, "null", "Tehran",
-//    "Iran", 5, searchActor)), "search4")
-//  Thread.sleep(3000)
-//  val search5 = system.actorOf(Props(new Client("Y44986738", date, NON, "null", "null",
-//    "null", 5, searchActor)), "search5")
-//  Thread.sleep(3000)
+  val searchApartment = system.actorOf(Props(new Client("Y44986739", date, Apartment, "null",
+    "null", "null", 0, searchActor)), "searchForApartment")
+  Thread.sleep(3000)
+  val searchResort = system.actorOf(Props(new Client("Y44986740", date, Resort, "null",
+    "null", "null", 0, searchActor)), "searchForResort")
+  Thread.sleep(3000)
+  val searchName = system.actorOf(Props(new Client("Y44986741", date, NON, "Eram", "null",
+    "null", 0, searchActor)), "searchForName")
+  Thread.sleep(3000)
+  val search4 = system.actorOf(Props(new Client("Y44986742", date, NON, "null", "Tehran",
+    "Iran", 5, searchActor)), "search4")
+  Thread.sleep(3000)
+  val search5 = system.actorOf(Props(new Client("Y44986743", date, NON, "null", "null",
+    "null", 5, searchActor)), "search5")
+  Thread.sleep(3000)
   system.terminate()
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
