@@ -46,6 +46,12 @@ class Client (PASSPORT: String, DATE: Date, PT: PropertyType, NAME: String, CITY
     clients("Rachel Green", 56, "Y44986746"),
     clients("Petter Griffin", 68, "Y44986747")
   )
+  CLIENTS.foreach { x =>
+    if (x.passport_number == PASSPORT) {
+      println(s"Welcome to the system ${x.name}.")
+      println("#######################################################################################################")
+    }
+  }
   if (DATE != null) {
     if (PT != NON) {
       if (NAME == "null") {
