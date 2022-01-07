@@ -1,0 +1,117 @@
+Welcome to the system Ardavan Khalij.
+#######################################################################################################
+Start Searching for Hotels with availability on Sun Sep 11 00:00:00 CEST 2022...
+#######################################################################################################
+Sending back the list for make a reservation by Ardavan Khalij ...
+#######################################################################################################
+1- Avenue Louise 4 star Hotel with id number 1 in Brussels, Belgium is available on Sun Sep 11 00:00:00 CEST 2022 for 70.0 euros.
+2- Azadi 5 star Hotel with id number 2 in Tehran, Iran is available on Sun Sep 11 00:00:00 CEST 2022 for 99.0 euros.
+3- Hilton 5 star Hotel with id number 5 in Tehran, Iran is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+4- Khalifa 5 star Hotel with id number 9 in Dubai, UAE is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+5- Pasargad 5 star Hotel with id number 13 in Kish, Iran is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+6- Homa 5 star Hotel with id number 14 in Tehran, Iran is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+7- Kroonlaan 4 star Hotel with id number 19 in Brussels, Belgium is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+8- Espinas 5 star Hotel with id number 20 in Tehran, Iran is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+9- Taksim 5 star Hotel with id number 23 in Istanbul, Iran is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+#######################################################################################################
+Ardavan Khalij choose Hilton 5 star Hotel with id number 5 in Tehran, Iran for 24.0 euros.
+#######################################################################################################
+Reservation has been complete by Ardavan Khalij.
+#######################################################################################################
+
+
+Welcome to the system Harry Potter.
+#######################################################################################################
+Start Searching for Apartments with availability on Sun Sep 11 00:00:00 CEST 2022...
+#######################################################################################################
+Sending back the list for make a reservation by Harry Potter ...
+#######################################################################################################
+1- Diamond 3 star Apartment with id number 4 in Brussels, Belgium is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+2- LUX 4 star Apartment with id number 7 in Las Vegas, USA is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+3- Airbnb 4 star Apartment with id number 10 in Brussels, Belgium is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+4- Airbnb 5 star Apartment with id number 11 in Brussels, Belgium is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+5- LUXA 4 star Apartment with id number 16 in Las Vegas, USA is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+6- Gold 3 star Apartment with id number 22 in Brussels, Belgium is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+7- Eram 4 star Apartment with id number 25 in Shiraz, Iran is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+#######################################################################################################
+Harry Potter choose Airbnb 5 star Apartment with id number 11 in Brussels, Belgium for 24.0 euros.
+#######################################################################################################
+Reservation has been complete by Harry Potter.
+#######################################################################################################
+
+
+Welcome to the system Severus Snap.
+#######################################################################################################
+Start Searching for Resorts with availability on Sun Sep 11 00:00:00 CEST 2022...
+#######################################################################################################
+Sending back the list for make a reservation by Severus Snap ...
+#######################################################################################################
+1- Arora 4 star Resort with id number 3 in Istanbul, Turkey is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+2- Dedeman 5 star Resort with id number 6 in Antalyia, Turkey is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+3- SIDE 3 star Resort with id number 8 in London, UK is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+4- Ferdowsi 4 star Resort with id number 12 in Mashhad, Iran is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+5- Vista hill 3 star Resort with id number 15 in Antalyia, Turkey is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+6- SID 3 star Resort with id number 17 in London, UK is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+7- ARAM 5 star Resort with id number 18 in Dubai, UAE is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+8- Cornel 4 star Resort with id number 21 in Istanbul, Turkey is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+9- Abbasi 5 star Resort with id number 24 in Isfahan, Iran is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+#######################################################################################################
+Severus Snap choose Arora 4 star Resort with id number 3 in Istanbul, Turkey for 24.0 euros.
+#######################################################################################################
+Reservation has been complete by Severus Snap.
+#######################################################################################################
+
+
+Welcome to the system Albus Dumbledor.
+#######################################################################################################
+Start Searching for properties with name Eram , and availability on Sun Sep 11 00:00:00 CEST 2022...
+#######################################################################################################
+Sending back the list for make a reservation by Albus Dumbledor ...
+#######################################################################################################
+1- Eram 4 star Apartment with id number 25 in Shiraz, Iran is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+#######################################################################################################
+Albus Dumbledor choose Eram 4 star Apartment with id number 25 in Shiraz, Iran for 24.0 euros.
+#######################################################################################################
+Reservation has been complete by Albus Dumbledor.
+#######################################################################################################
+
+
+Welcome to the system Tony Stark.
+#######################################################################################################
+Start Searching for properties in Tehran, Iran, and with availability on Sun Sep 11 00:00:00 CEST 2022...
+#######################################################################################################
+Sending back the list for make a reservation by Tony Stark ...
+#######################################################################################################
+1- Azadi 5 star Hotel with id number 2 in Tehran, Iran is available on Sun Sep 11 00:00:00 CEST 2022 for 99.0 euros.
+2- Homa 5 star Hotel with id number 14 in Tehran, Iran is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+3- Espinas 5 star Hotel with id number 20 in Tehran, Iran is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+#######################################################################################################
+Tony Stark choose Azadi 5 star Hotel with id number 2 in Tehran, Iran for 99.0 euros.
+#######################################################################################################
+Reservation has been complete by Tony Stark.
+#######################################################################################################
+
+
+Welcome to the system Ted Mosby.
+#######################################################################################################
+Start Searching for 5 star properties with availability on Sun Sep 11 00:00:00 CEST 2022...
+#######################################################################################################
+Sending back the list for make a reservation by Ted Mosby ...
+#######################################################################################################
+1- Dedeman 5 star Resort with id number 6 in Antalyia, Turkey is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+2- Khalifa 5 star Hotel with id number 9 in Dubai, UAE is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+3- Pasargad 5 star Hotel with id number 13 in Kish, Iran is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+4- Homa 5 star Hotel with id number 14 in Tehran, Iran is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+5- ARAM 5 star Resort with id number 18 in Dubai, UAE is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+6- Espinas 5 star Hotel with id number 20 in Tehran, Iran is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+7- Taksim 5 star Hotel with id number 23 in Istanbul, Iran is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+8- Abbasi 5 star Resort with id number 24 in Isfahan, Iran is available on Sun Sep 11 00:00:00 CEST 2022 for 24.0 euros.
+#######################################################################################################
+Ted Mosby choose Dedeman 5 star Resort with id number 6 in Antalyia, Turkey for 24.0 euros.
+#######################################################################################################
+Reservation has been complete by Ted Mosby.
+#######################################################################################################
+
+
+
+Process finished with exit code 0
