@@ -13,7 +13,7 @@ case object Apartment extends PropertyType
 case object Resort extends PropertyType
 case object NON extends PropertyType
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-case class client(name: String, age: Int, passport_number: String)
+case class clients(name: String, age: Int, passport_number: String)
 case class property(id: Int, name: String, PropertyType: PropertyType, category: Int, country: String, city: String,
                     var NotAvailable: List[Date], Price: Double)
 case class AvailableProperty(id: Int, name: String, PropertyType: PropertyType, category: Int, country: String,
@@ -32,10 +32,19 @@ case class SendPropertyTypeCountryCity(date: Date, propertyType: PropertyType, c
 case class SendPropertyTypeCountryCityName(date: Date, propertyType: PropertyType, country: String, city: String,
                                            name: String, actorRef: ActorRef)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class Client (DATE: Date, PT: PropertyType, NAME: String, CITY: String, COUNTRY: String, CATEGORY: Int, 
+class Client (PASSPORT: String, DATE: Date, PT: PropertyType, NAME: String, CITY: String, COUNTRY: String, CATEGORY: Int,
               searchActor: ActorRef) extends Actor with ActorLogging {
   var CLIENTS = List(
-    client("Ardavan Khalij", 23, "Y44986738")
+    clients("Ardavan Khalij", 23, "Y44986738"),
+    clients("Harry Potter", 32, "Y44986739"),
+    clients("Severus Snap", 58, "Y44986740"),
+    clients("Albus Dumbledor", 143, "Y44986741"),
+    clients("Tony Stark", 55, "Y44986742"),
+    clients("Ted Mosby", 47, "Y44986743"),
+    clients("Bella Swan", 24, "Y44986744"),
+    clients("Ross Geller", 57, "Y44986745"),
+    clients("Rachel Green", 56, "Y44986746"),
+    clients("Petter Griffin", 68, "Y44986747")
   )
   if (DATE != null) {
     if (PT != NON) {
@@ -392,22 +401,22 @@ object BOOKING extends App {
   val searchActor = system.actorOf(Props[SystemService], "search")
   val format = new SimpleDateFormat("yyyy-MM-dd")
   val date = format.parse("2022-09-11")
-  val searchHotel = system.actorOf(Props(new Client(date, Hotel, "null", "null", "null",
+  val searchHotel = system.actorOf(Props(new Client("Y44986738", date, Hotel, "null", "null", "null",
     0, searchActor)), "searchForHotel")
   Thread.sleep(3000)
-  val searchApartment = system.actorOf(Props(new Client(date, Apartment, "null", "null",
+  val searchApartment = system.actorOf(Props(new Client("Y44986738", date, Apartment, "null", "null",
     "null", 0, searchActor)), "searchForApartment")
   Thread.sleep(3000)
-  val searchResort = system.actorOf(Props(new Client(date, Resort, "null", "null",
+  val searchResort = system.actorOf(Props(new Client("Y44986738", date, Resort, "null", "null",
     "null", 0, searchActor)), "searchForResort")
   Thread.sleep(3000)
-  val searchName = system.actorOf(Props(new Client(date, NON, "Eram", "null", "null",
+  val searchName = system.actorOf(Props(new Client("Y44986738", date, NON, "Eram", "null", "null",
     0, searchActor)), "searchForName")
   Thread.sleep(3000)
-  val search4 = system.actorOf(Props(new Client(date, NON, "null", "Tehran", "Iran",
+  val search4 = system.actorOf(Props(new Client("Y44986738", date, NON, "null", "Tehran", "Iran",
     5, searchActor)), "search4")
   Thread.sleep(3000)
-  val search5 = system.actorOf(Props(new Client(date, NON, "null", "null", "null",
+  val search5 = system.actorOf(Props(new Client("Y44986738", date, NON, "null", "null", "null",
     5, searchActor)), "search5")
   Thread.sleep(3000)
   system.terminate()
