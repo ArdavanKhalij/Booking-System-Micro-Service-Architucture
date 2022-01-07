@@ -16,26 +16,26 @@ case object NON extends PropertyType
 case class clients(name: String, age: Int, passport_number: String)
 case class property(id: Int, name: String, PropertyType: PropertyType, category: Int, country: String, city: String,
                     var NotAvailable: List[Date], Price: Double)
-case class AvailableProperty(customerName: String, id: Int, name: String, PropertyType: PropertyType, category: Int, 
+case class AvailableProperty(customerName: String, id: Int, name: String, PropertyType: PropertyType, category: Int,
                              country: String, city: String, price: Double)
 case class AvailableProperties(var availableProperties: List[AvailableProperty])
 case class SendProperty(customerName: String, date: Date, propertyType: PropertyType, actorRef: ActorRef)
 case class SendPropertyName(customerName: String, date: Date, name: String, actorRef: ActorRef)
 case class SendPropertyCategory(customerName: String, date: Date, category: Int, actorRef: ActorRef)
 case class SendPropertyCountryCity(customerName: String, date: Date, country: String, city: String, actorRef: ActorRef)
-case class SendPropertyCountryCityName(customerName: String, date: Date, country: String, city: String, name: String, 
+case class SendPropertyCountryCityName(customerName: String, date: Date, country: String, city: String, name: String,
                                        actorRef: ActorRef)
-case class SendPropertyCountryCityCategory(customerName: String, date: Date, country: String, city: String, 
+case class SendPropertyCountryCityCategory(customerName: String, date: Date, country: String, city: String,
                                            category: Int, actorRef: ActorRef)
 case class SendPropertyNameCategory(customerName: String, date: Date, category: Int, name: String, actorRef: ActorRef)
-case class SendPropertyTypeName(customerName: String, date: Date, propertyType: PropertyType, name: String, 
+case class SendPropertyTypeName(customerName: String, date: Date, propertyType: PropertyType, name: String,
                                 actorRef: ActorRef)
-case class SendPropertyTypeCountryCity(customerName: String, date: Date, propertyType: PropertyType, country: String, 
+case class SendPropertyTypeCountryCity(customerName: String, date: Date, propertyType: PropertyType, country: String,
                                        city: String, actorRef: ActorRef)
-case class SendPropertyTypeCountryCityName(customerName: String, date: Date, propertyType: PropertyType, 
+case class SendPropertyTypeCountryCityName(customerName: String, date: Date, propertyType: PropertyType,
                                            country: String, city: String, name: String, actorRef: ActorRef)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class Client (PASSPORT: String, DATE: Date, PT: PropertyType, NAME: String, CITY: String, COUNTRY: String, 
+class Client (PASSPORT: String, DATE: Date, PT: PropertyType, NAME: String, CITY: String, COUNTRY: String,
               CATEGORY: Int, searchActor: ActorRef) extends Actor with ActorLogging {
   var CLIENTS = List(
     clients("Ardavan Khalij", 23, "Y44986738"),
@@ -232,6 +232,7 @@ class Client (PASSPORT: String, DATE: Date, PT: PropertyType, NAME: String, CITY
         i = i + 1
       }
       println("")
+
     }
     case _ =>
   }
@@ -276,6 +277,8 @@ class SystemService extends Actor{
           }
         }
       }
+      println(s"Sending back the list for make a reservation by $customerName ...")
+      println("#######################################################################################################")
       replyTo ! APS
     }
     case SendPropertyName(customerName, date, name, replyTo) => {
@@ -288,6 +291,8 @@ class SystemService extends Actor{
           }
         }
       }
+      println(s"Sending back the list for make a reservation by $customerName ...")
+      println("#######################################################################################################")
       replyTo ! APS
     }
     case SendPropertyCategory(customerName, date, category, replyTo) => {
@@ -300,6 +305,8 @@ class SystemService extends Actor{
           }
         }
       }
+      println(s"Sending back the list for make a reservation by $customerName ...")
+      println("#######################################################################################################")
       replyTo ! APS
     }
     case SendPropertyCountryCity(customerName, date, country, city, replyTo) => {
@@ -314,6 +321,8 @@ class SystemService extends Actor{
           }
         }
       }
+      println(s"Sending back the list for make a reservation by $customerName ...")
+      println("#######################################################################################################")
       replyTo ! APS
     }
     case SendPropertyCountryCityName(customerName, date, country, city, name, replyTo) => {
@@ -330,6 +339,8 @@ class SystemService extends Actor{
           }
         }
       }
+      println(s"Sending back the list for make a reservation by $customerName ...")
+      println("#######################################################################################################")
       replyTo ! APS
     }
     case SendPropertyCountryCityCategory(customerName, date, country, city, category, replyTo) => {
@@ -346,6 +357,8 @@ class SystemService extends Actor{
           }
         }
       }
+      println(s"Sending back the list for make a reservation by $customerName ...")
+      println("#######################################################################################################")
       replyTo ! APS
     }
     case SendPropertyNameCategory(customerName, date, category, name, replyTo) => {
@@ -360,6 +373,8 @@ class SystemService extends Actor{
           }
         }
       }
+      println(s"Sending back the list for make a reservation by $customerName ...")
+      println("#######################################################################################################")
       replyTo ! APS
     }
     case SendPropertyTypeName(customerName, date, propertyType, name, replyTo) => {
@@ -374,6 +389,8 @@ class SystemService extends Actor{
           }
         }
       }
+      println(s"Sending back the list for make a reservation by $customerName ...")
+      println("#######################################################################################################")
       replyTo ! APS
     }
     case SendPropertyTypeCountryCity(customerName, date, propertyType, country, city, replyTo) => {
@@ -390,6 +407,8 @@ class SystemService extends Actor{
           }
         }
       }
+      println(s"Sending back the list for make a reservation by $customerName ...")
+      println("#######################################################################################################")
       replyTo ! APS
     }
     case SendPropertyTypeCountryCityName(customerName, date, propertyType, country, city, name, replyTo) => {
@@ -408,9 +427,13 @@ class SystemService extends Actor{
           }
         }
       }
+      println(s"Sending back the list for make a reservation by $customerName ...")
+      println("#######################################################################################################")
       replyTo ! APS
     }
     case _ =>
+      println("Search is not available!")
+      println("#######################################################################################################")
   }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -419,22 +442,22 @@ object BOOKING extends App {
   val searchActor = system.actorOf(Props[SystemService], "search")
   val format = new SimpleDateFormat("yyyy-MM-dd")
   val date = format.parse("2022-09-11")
-  val searchHotel = system.actorOf(Props(new Client("Y44986738", date, Hotel, "null", "null", 
+  val searchHotel = system.actorOf(Props(new Client("Y44986738", date, Hotel, "null", "null",
     "null", 0, searchActor)), "searchForHotel")
   Thread.sleep(3000)
-  val searchApartment = system.actorOf(Props(new Client("Y44986738", date, Apartment, "null", 
+  val searchApartment = system.actorOf(Props(new Client("Y44986738", date, Apartment, "null",
     "null", "null", 0, searchActor)), "searchForApartment")
   Thread.sleep(3000)
-  val searchResort = system.actorOf(Props(new Client("Y44986738", date, Resort, "null", 
+  val searchResort = system.actorOf(Props(new Client("Y44986738", date, Resort, "null",
     "null", "null", 0, searchActor)), "searchForResort")
   Thread.sleep(3000)
-  val searchName = system.actorOf(Props(new Client("Y44986738", date, NON, "Eram", "null", 
+  val searchName = system.actorOf(Props(new Client("Y44986738", date, NON, "Eram", "null",
     "null", 0, searchActor)), "searchForName")
   Thread.sleep(3000)
-  val search4 = system.actorOf(Props(new Client("Y44986738", date, NON, "null", "Tehran", 
+  val search4 = system.actorOf(Props(new Client("Y44986738", date, NON, "null", "Tehran",
     "Iran", 5, searchActor)), "search4")
   Thread.sleep(3000)
-  val search5 = system.actorOf(Props(new Client("Y44986738", date, NON, "null", "null", 
+  val search5 = system.actorOf(Props(new Client("Y44986738", date, NON, "null", "null",
     "null", 5, searchActor)), "search5")
   Thread.sleep(3000)
   system.terminate()
