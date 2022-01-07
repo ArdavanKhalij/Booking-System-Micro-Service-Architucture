@@ -1,7 +1,48 @@
 import akka.actor.{Actor, ActorLogging, ActorRef, ActorSystem, Props}
 
 import java.text.SimpleDateFormat
-import java.util.Date
+import java.util.{Date, Random}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+object BOOKING extends App {
+  var PROPERTIES = List(
+    property(1, "Avenue Louise", Hotel, 4, "Belgium", "Brussels", List(), 70),
+    property(2, "Azadi", Hotel, 5, "Iran", "Tehran", List(), 99),
+    property(3, "Arora", Resort, 4, "Turkey", "Istanbul", List(), 24),
+    property(4, "Diamond", Apartment, 3, "Belgium", "Brussels", List(), 24),
+    property(5, "Hilton", Hotel, 5, "Iran", "Tehran", List(), 24),
+    property(6, "Dedeman", Resort, 5, "Turkey", "Antalyia", List(), 24),
+    property(7, "LUX", Apartment, 4, "USA", "Las Vegas", List(), 24),
+    property(8, "SIDE", Resort, 3, "UK", "London", List(), 24),
+    property(9, "Khalifa", Hotel, 5, "UAE", "Dubai", List(), 24),
+    property(10, "Airbnb", Apartment, 4, "Belgium", "Brussels", List(), 24),
+    property(11, "Airbnb", Apartment, 5, "Belgium", "Brussels", List(), 24),
+    property(12, "Ferdowsi", Resort, 4, "Iran", "Mashhad", List(), 24),
+    property(13, "Pasargad", Hotel, 5, "Iran", "Kish", List(), 24),
+    property(14, "Homa", Hotel, 5, "Iran", "Tehran", List(), 24),
+    property(15, "Vista hill", Resort, 3, "Turkey", "Antalyia", List(), 24),
+    property(16, "LUXA", Apartment, 4, "USA", "Las Vegas", List(), 24),
+    property(17, "SID", Resort, 3, "UK", "London", List(), 24),
+    property(18, "ARAM", Resort, 5, "UAE", "Dubai", List(), 24),
+    property(19, "Kroonlaan", Hotel, 4, "Belgium", "Brussels", List(), 24),
+    property(20, "Espinas", Hotel, 5, "Iran", "Tehran", List(), 24),
+    property(21, "Cornel", Resort, 4, "Turkey", "Istanbul", List(), 24),
+    property(22, "Gold", Apartment, 3, "Belgium", "Brussels", List(), 24),
+    property(23, "Taksim", Hotel, 5, "Iran", "Istanbul", List(), 24),
+    property(24, "Abbasi", Resort, 5, "Iran", "Isfahan", List(), 24),
+    property(25, "Eram", Apartment, 4, "Iran", "Shiraz", List(), 24)
+  )
+  var CLIENTS = List(
+    clients("Ardavan Khalij", 23, "Y44986738"),
+    clients("Harry Potter", 32, "Y44986739"),
+    clients("Severus Snap", 58, "Y44986740"),
+    clients("Albus Dumbledor", 143, "Y44986741"),
+    clients("Tony Stark", 55, "Y44986742"),
+    clients("Ted Mosby", 47, "Y44986743"),
+    clients("Bella Swan", 24, "Y44986744"),
+    clients("Ross Geller", 57, "Y44986745"),
+    clients("Rachel Green", 56, "Y44986746"),
+    clients("Petter Griffin", 68, "Y44986747")
+  )
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 sealed trait PropertyAvailability
 case object PropertyIsAvailable extends PropertyAvailability
@@ -17,7 +58,7 @@ case class clients(name: String, age: Int, passport_number: String)
 case class property(id: Int, name: String, PropertyType: PropertyType, category: Int, country: String, city: String,
                     var NotAvailable: List[Date], Price: Double)
 case class AvailableProperty(customerName: String, id: Int, name: String, PropertyType: PropertyType, category: Int,
-                             country: String, city: String, price: Double)
+                             country: String, city: String, price: Double, date: List[Date], actorRef: ActorRef)
 case class AvailableProperties(var availableProperties: List[AvailableProperty])
 case class SendProperty(customerName: String, date: Date, propertyType: PropertyType, actorRef: ActorRef)
 case class SendPropertyName(customerName: String, date: Date, name: String, actorRef: ActorRef)
@@ -37,18 +78,6 @@ case class SendPropertyTypeCountryCityName(customerName: String, date: Date, pro
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Client (PASSPORT: String, DATE: Date, PT: PropertyType, NAME: String, CITY: String, COUNTRY: String,
               CATEGORY: Int, searchActor: ActorRef) extends Actor with ActorLogging {
-  var CLIENTS = List(
-    clients("Ardavan Khalij", 23, "Y44986738"),
-    clients("Harry Potter", 32, "Y44986739"),
-    clients("Severus Snap", 58, "Y44986740"),
-    clients("Albus Dumbledor", 143, "Y44986741"),
-    clients("Tony Stark", 55, "Y44986742"),
-    clients("Ted Mosby", 47, "Y44986743"),
-    clients("Bella Swan", 24, "Y44986744"),
-    clients("Ross Geller", 57, "Y44986745"),
-    clients("Rachel Green", 56, "Y44986746"),
-    clients("Petter Griffin", 68, "Y44986747")
-  )
   var CUSTOMER_NAME = ""
   CLIENTS.foreach { x =>
     if (x.passport_number == PASSPORT) {
@@ -231,41 +260,23 @@ class Client (PASSPORT: String, DATE: Date, PT: PropertyType, NAME: String, CITY
           s"${X.city}, ${X.country} is available on ${DATE} for ${X.price.toString} euros.")
         i = i + 1
       }
-      println("")
-
+      println("#######################################################################################################")
+      val random_var = new Random
+      val randomChosen = availableProperties(random_var.nextInt(availableProperties.length))
+      println(s"${randomChosen.customerName} choose ${randomChosen.name} ${randomChosen.category.toString} star " +
+        s"${randomChosen.PropertyType.toString} with id number ${randomChosen.id} in ${randomChosen.city}, " +
+        s"${randomChosen.country} for ${randomChosen.price.toString} euros.")
+      println("#######################################################################################################")
+      var index = PROPERTIES.indexOf(property(randomChosen.id, randomChosen.name, randomChosen.PropertyType,
+        randomChosen.category, randomChosen.country, randomChosen.city, randomChosen.date, randomChosen.price))
+      PROPERTIES(index).NotAvailable = PROPERTIES(index).NotAvailable :+ DATE
+      randomChosen.actorRef ! randomChosen
     }
     case _ =>
   }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class SystemService extends Actor{
-  var PROPERTIES = List(
-    property(1, "Avenue Louise", Hotel, 4, "Belgium", "Brussels", List(), 70),
-    property(2, "Azadi", Hotel, 5, "Iran", "Tehran", List(), 99),
-    property(3, "Arora", Resort, 4, "Turkey", "Istanbul", List(), 24),
-    property(4, "Diamond", Apartment, 3, "Belgium", "Brussels", List(), 24),
-    property(5, "Hilton", Hotel, 5, "Iran", "Tehran", List(), 24),
-    property(6, "Dedeman", Resort, 5, "Turkey", "Antalyia", List(), 24),
-    property(7, "LUX", Apartment, 4, "USA", "Las Vegas", List(), 24),
-    property(8, "SIDE", Resort, 3, "UK", "London", List(), 24),
-    property(9, "Khalifa", Hotel, 5, "UAE", "Dubai", List(), 24),
-    property(10, "Airbnb", Apartment, 4, "Belgium", "Brussels", List(), 24),
-    property(11, "Airbnb", Apartment, 5, "Belgium", "Brussels", List(), 24),
-    property(12, "Ferdowsi", Resort, 4, "Iran", "Mashhad", List(), 24),
-    property(13, "Pasargad", Hotel, 5, "Iran", "Kish", List(), 24),
-    property(14, "Homa", Hotel, 5, "Iran", "Tehran", List(), 24),
-    property(15, "Vista hill", Resort, 3, "Turkey", "Antalyia", List(), 24),
-    property(16, "LUXA", Apartment, 4, "USA", "Las Vegas", List(), 24),
-    property(17, "SID", Resort, 3, "UK", "London", List(), 24),
-    property(18, "ARAM", Resort, 5, "UAE", "Dubai", List(), 24),
-    property(19, "Kroonlaan", Hotel, 4, "Belgium", "Brussels", List(), 24),
-    property(20, "Espinas", Hotel, 5, "Iran", "Tehran", List(), 24),
-    property(21, "Cornel", Resort, 4, "Turkey", "Istanbul", List(), 24),
-    property(22, "Gold", Apartment, 3, "Belgium", "Brussels", List(), 24),
-    property(23, "Taksim", Hotel, 5, "Iran", "Istanbul", List(), 24),
-    property(24, "Abbasi", Resort, 5, "Iran", "Isfahan", List(), 24),
-    property(25, "Eram", Apartment, 4, "Iran", "Shiraz", List(), 24)
-  )
   override def receive: Receive = {
     case SendProperty(customerName, date, propertyType, replyTo) => {
       var APS = AvailableProperties(List())
@@ -273,7 +284,7 @@ class SystemService extends Actor{
         if (!X.NotAvailable.contains(date)){
           if (X.PropertyType == propertyType){
             APS.availableProperties = APS.availableProperties :+ AvailableProperty(customerName, X.id, X.name,
-              X.PropertyType, X.category, X.country, X.city, X.Price)
+              X.PropertyType, X.category, X.country, X.city, X.Price, X.NotAvailable, self)
           }
         }
       }
@@ -287,7 +298,7 @@ class SystemService extends Actor{
         if (!X.NotAvailable.contains(date)){
           if (X.name == name){
             APS.availableProperties = APS.availableProperties :+ AvailableProperty(customerName, X.id, X.name,
-              X.PropertyType, X.category, X.country, X.city, X.Price)
+              X.PropertyType, X.category, X.country, X.city, X.Price, X.NotAvailable, self)
           }
         }
       }
@@ -301,7 +312,7 @@ class SystemService extends Actor{
         if (!X.NotAvailable.contains(date)){
           if (X.category == category){
             APS.availableProperties = APS.availableProperties :+ AvailableProperty(customerName, X.id, X.name,
-              X.PropertyType, X.category, X.country, X.city, X.Price)
+              X.PropertyType, X.category, X.country, X.city, X.Price, X.NotAvailable, self)
           }
         }
       }
@@ -316,7 +327,7 @@ class SystemService extends Actor{
           if (X.country == country){
             if (X.city == city){
               APS.availableProperties = APS.availableProperties :+ AvailableProperty(customerName, X.id, X.name,
-                X.PropertyType, X.category, X.country, X.city, X.Price)
+                X.PropertyType, X.category, X.country, X.city, X.Price, X.NotAvailable, self)
             }
           }
         }
@@ -333,7 +344,7 @@ class SystemService extends Actor{
             if (X.city == city){
               if (X.name == name){
                 APS.availableProperties = APS.availableProperties :+ AvailableProperty(customerName, X.id, X.name,
-                  X.PropertyType, X.category, X.country, X.city, X.Price)
+                  X.PropertyType, X.category, X.country, X.city, X.Price, X.NotAvailable, self)
               }
             }
           }
@@ -351,7 +362,7 @@ class SystemService extends Actor{
             if (X.city == city){
               if (X.category == category){
                 APS.availableProperties = APS.availableProperties :+ AvailableProperty(customerName, X.id, X.name,
-                  X.PropertyType, X.category, X.country, X.city, X.Price)
+                  X.PropertyType, X.category, X.country, X.city, X.Price, X.NotAvailable, self)
               }
             }
           }
@@ -368,7 +379,7 @@ class SystemService extends Actor{
           if (X.category == category){
             if (X.name == name) {
               APS.availableProperties = APS.availableProperties :+ AvailableProperty(customerName, X.id, X.name,
-                X.PropertyType, X.category, X.country, X.city, X.Price)
+                X.PropertyType, X.category, X.country, X.city, X.Price, X.NotAvailable, self)
             }
           }
         }
@@ -384,7 +395,7 @@ class SystemService extends Actor{
           if (X.PropertyType == propertyType){
             if (X.name == name) {
               APS.availableProperties = APS.availableProperties :+ AvailableProperty(customerName, X.id, X.name,
-                X.PropertyType, X.category, X.country, X.city, X.Price)
+                X.PropertyType, X.category, X.country, X.city, X.Price, X.NotAvailable, self)
             }
           }
         }
@@ -401,7 +412,7 @@ class SystemService extends Actor{
             if (X.country == country){
               if (X.city == city){
                 APS.availableProperties = APS.availableProperties :+ AvailableProperty(customerName, X.id, X.name,
-                  X.PropertyType, X.category, X.country, X.city, X.Price)
+                  X.PropertyType, X.category, X.country, X.city, X.Price, X.NotAvailable, self)
               }
             }
           }
@@ -420,7 +431,7 @@ class SystemService extends Actor{
               if (X.city == city){
                 if (X.name == name){
                   APS.availableProperties = APS.availableProperties :+ AvailableProperty(customerName, X.id, X.name,
-                    X.PropertyType, X.category, X.country, X.city, X.Price)
+                    X.PropertyType, X.category, X.country, X.city, X.Price, X.NotAvailable, self)
                 }
               }
             }
@@ -431,13 +442,14 @@ class SystemService extends Actor{
       println("#######################################################################################################")
       replyTo ! APS
     }
+//    case AvailableProperty(customerName, id, name, propertyType, category, country, city, price, date, actorRef) =>
     case _ =>
       println("Search is not available!")
       println("#######################################################################################################")
+      println("")
   }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-object BOOKING extends App {
   val system = ActorSystem("Booking")
   val searchActor = system.actorOf(Props[SystemService], "search")
   val format = new SimpleDateFormat("yyyy-MM-dd")
