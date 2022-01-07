@@ -54,6 +54,9 @@ case object Apartment extends PropertyType
 case object Resort extends PropertyType
 case object NON extends PropertyType
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+case object ReservationIsSuccessfull
+case object ReservationIsFailed
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 case class clients(name: String, age: Int, passport_number: String)
 case class property(id: Int, name: String, PropertyType: PropertyType, category: Int, country: String, city: String,
                     var NotAvailable: List[Date], Price: Double)
@@ -75,6 +78,7 @@ case class SendPropertyTypeCountryCity(customerName: String, date: Date, propert
                                        city: String, actorRef: ActorRef)
 case class SendPropertyTypeCountryCityName(customerName: String, date: Date, propertyType: PropertyType,
                                            country: String, city: String, name: String, actorRef: ActorRef)
+case class RandomChosenDate(randomChosen: AvailableProperty, date: Date, replyTo: ActorRef)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Client (PASSPORT: String, DATE: Date, PT: PropertyType, NAME: String, CITY: String, COUNTRY: String,
               CATEGORY: Int, searchActor: ActorRef) extends Actor with ActorLogging {
@@ -267,10 +271,15 @@ class Client (PASSPORT: String, DATE: Date, PT: PropertyType, NAME: String, CITY
         s"${randomChosen.PropertyType.toString} with id number ${randomChosen.id} in ${randomChosen.city}, " +
         s"${randomChosen.country} for ${randomChosen.price.toString} euros.")
       println("#######################################################################################################")
-      var index = PROPERTIES.indexOf(property(randomChosen.id, randomChosen.name, randomChosen.PropertyType,
-        randomChosen.category, randomChosen.country, randomChosen.city, randomChosen.date, randomChosen.price))
-      PROPERTIES(index).NotAvailable = PROPERTIES(index).NotAvailable :+ DATE
-      randomChosen.actorRef ! randomChosen
+      randomChosen.actorRef ! RandomChosenDate(randomChosen, DATE, self)
+    }
+    case ReservationIsFailed => {
+      println(s"Reservation has been failed by $CUSTOMER_NAME.")
+      println("#######################################################################################################")
+    }
+    case ReservationIsSuccessfull => {
+      println(s"Reservation has been complete by $CUSTOMER_NAME.")
+      println("#######################################################################################################")
     }
     case _ =>
   }
@@ -442,18 +451,28 @@ class SystemService extends Actor{
       println("#######################################################################################################")
       replyTo ! APS
     }
-    case AvailableProperty(customerName, id, name, propertyType, category, country, city, price, date, actorRef) =>
-      val childSearch = context.actorOf(Props(new ReservationService(customerName, id, name, propertyType, category,
-        country, city, price, date, self)))
-      println("Search is not available!")
-      println("#######################################################################################################")
-      println("")
+    case RandomChosenDate(availableProperty, date, replyTo) => {
+      val childReservation = context.actorOf(Props(new ReservationService(date, replyTo)))
+      childReservation ! availableProperty
+    }
     case _ =>
   }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class ReservationService() extends Actor with ActorLogging {
-  override def receive: Receive = ???
+class ReservationService (DATE: Date, replyTo: ActorRef) extends Actor with ActorLogging {
+  override def receive: Receive = {
+    case AvailableProperty(customerName, id, name, propertyType, category, country, city, price, date, replyTo2) => {
+      var index = PROPERTIES.indexOf(property(id, name, propertyType, category, country, city, date, price))
+      if (PROPERTIES(index).NotAvailable.contains(DATE)) {
+        replyTo ! ReservationIsFailed
+      }
+      else{
+        PROPERTIES(index).NotAvailable = PROPERTIES(index).NotAvailable :+ DATE
+        replyTo ! ReservationIsSuccessfull
+      }
+      context.stop(self)
+    }
+  }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   val system = ActorSystem("Booking")
@@ -463,21 +482,21 @@ class ReservationService() extends Actor with ActorLogging {
   val searchHotel = system.actorOf(Props(new Client("Y44986738", date, Hotel, "null", "null",
     "null", 0, searchActor)), "searchForHotel")
   Thread.sleep(3000)
-  val searchApartment = system.actorOf(Props(new Client("Y44986738", date, Apartment, "null",
-    "null", "null", 0, searchActor)), "searchForApartment")
-  Thread.sleep(3000)
-  val searchResort = system.actorOf(Props(new Client("Y44986738", date, Resort, "null",
-    "null", "null", 0, searchActor)), "searchForResort")
-  Thread.sleep(3000)
-  val searchName = system.actorOf(Props(new Client("Y44986738", date, NON, "Eram", "null",
-    "null", 0, searchActor)), "searchForName")
-  Thread.sleep(3000)
-  val search4 = system.actorOf(Props(new Client("Y44986738", date, NON, "null", "Tehran",
-    "Iran", 5, searchActor)), "search4")
-  Thread.sleep(3000)
-  val search5 = system.actorOf(Props(new Client("Y44986738", date, NON, "null", "null",
-    "null", 5, searchActor)), "search5")
-  Thread.sleep(3000)
+//  val searchApartment = system.actorOf(Props(new Client("Y44986738", date, Apartment, "null",
+//    "null", "null", 0, searchActor)), "searchForApartment")
+//  Thread.sleep(3000)
+//  val searchResort = system.actorOf(Props(new Client("Y44986738", date, Resort, "null",
+//    "null", "null", 0, searchActor)), "searchForResort")
+//  Thread.sleep(3000)
+//  val searchName = system.actorOf(Props(new Client("Y44986738", date, NON, "Eram", "null",
+//    "null", 0, searchActor)), "searchForName")
+//  Thread.sleep(3000)
+//  val search4 = system.actorOf(Props(new Client("Y44986738", date, NON, "null", "Tehran",
+//    "Iran", 5, searchActor)), "search4")
+//  Thread.sleep(3000)
+//  val search5 = system.actorOf(Props(new Client("Y44986738", date, NON, "null", "null",
+//    "null", 5, searchActor)), "search5")
+//  Thread.sleep(3000)
   system.terminate()
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
