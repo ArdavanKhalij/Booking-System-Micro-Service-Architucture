@@ -414,13 +414,6 @@ class SystemService extends Actor{
   }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//class Client(CLIENT: client, PROPERTY: List[property], searchActor: ActorRef) extends Actor with ActorLogging {
-//  var returnProperties: List[property] = List()
-//  override def receive: Receive = {
-//    case String =>
-//  }
-//}
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 object BOOKING extends App {
   val system = ActorSystem("Booking")
   val searchActor = system.actorOf(Props[SystemService], "search")
