@@ -442,12 +442,13 @@ class SystemService extends Actor{
       println("#######################################################################################################")
       replyTo ! APS
     }
-//    case AvailableProperty(customerName, id, name, propertyType, category, country, city, price, date, actorRef) =>
-    case _ =>
-      val childSearch = context.actorOf(Props(new ReservationService()))
+    case AvailableProperty(customerName, id, name, propertyType, category, country, city, price, date, actorRef) =>
+      val childSearch = context.actorOf(Props(new ReservationService(customerName, id, name, propertyType, category,
+        country, city, price, date, self)))
       println("Search is not available!")
       println("#######################################################################################################")
       println("")
+    case _ =>
   }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
