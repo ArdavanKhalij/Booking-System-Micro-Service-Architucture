@@ -44,10 +44,6 @@ object BOOKING extends App {
     clients("Petter Griffin", 68, "Y44986747")
   )
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-sealed trait PropertyAvailability
-case object PropertyIsAvailable extends PropertyAvailability
-case object PropertyIsNotAvailable extends PropertyAvailability
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 sealed trait PropertyType
 case object Hotel extends PropertyType
 case object Apartment extends PropertyType
